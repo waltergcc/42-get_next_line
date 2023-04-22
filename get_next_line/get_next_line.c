@@ -6,41 +6,35 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 00:26:26 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/04/22 18:45:30 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/04/22 19:39:08 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*get_line(char *buffer)
+char	*get_line(char **buffer)
 {
 	char	*line;
-	size_t	len;
+	char	*keep;
+	size_t	til_null;
+	size_t	til_new;
 
-	len = strlen_at(buffer, '\n');
-	if (buffer[len] == '\n')
-		len++;
-	line = cpy_buffer(buffer, len);
+	til_new = strlen_at(*buffer, '\n');
+	if ((*buffer)[til_new] == '\n')
+		til_new++;
+	line = cpy_buffer(*buffer, til_new);
 	if (!line)
 		return (NULL);
-	return (line);
-}
-
-char	*get_remaining(char *buffer)
-{
-	char	*leftover;
-	size_t	len;
-	size_t	new_line;
-
-	len = strlen_at(buffer, '\0');
-	new_line = strlen_at(buffer, '\n');
-	if (buffer[new_line] == '\n')
-		new_line++;
-	leftover = cpy_buffer(buffer + new_line, len - new_line + 1);
-	if (!leftover)
+	til_null = strlen_at(*buffer, '\0');
+	keep = cpy_buffer(*buffer + til_new, til_null - til_new + 1);
+	if (!keep)
+	{
+		free (line);
 		return (NULL);
-	free(buffer);
-	return (leftover);
+	}
+	free(*buffer);
+	*buffer = keep;
+	return (line);
 }
 
 char	*get_current_buffer(int fd, char *buffer)
@@ -81,8 +75,7 @@ char	*get_next_line(int fd)
 	buffer = get_current_buffer(fd, buffer);
 	if (!buffer)
 		return (NULL);
-	line = get_line(buffer);
-	buffer = get_remaining(buffer);
+	line = get_line(&buffer);
 	if (!buffer[0])
 	{
 		free (buffer);
