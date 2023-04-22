@@ -6,88 +6,87 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 00:26:26 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/04/21 01:51:07 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/04/22 18:45:30 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static char	*get_line(char **buffer, char *line)
+char	*get_line(char *buffer)
 {
-	char	*tmp;
+	char	*line;
 	size_t	len;
 
-	if (!**buffer || !*buffer)
+	len = strlen_at(buffer, '\n');
+	if (buffer[len] == '\n')
+		len++;
+	line = cpy_buffer(buffer, len);
+	if (!line)
 		return (NULL);
-	tmp = ft_strchr(*buffer, '\n');
-	if (tmp)
-	{
-		len = tmp - *buffer + 1;
-		line = ft_substr(*buffer, 0, len);
-		if (!line)
-			return (NULL);
-		tmp = ft_strdup(*buffer + len);
-		if (!tmp)
-		{
-			free(line);
-			return (NULL);
-		}
-		free(*buffer);
-		*buffer = tmp;
-	}
-	else
-	{
-		line = ft_strdup(*buffer);
-		if (!line)
-			return (NULL);
-		free(*buffer);
-		*buffer = NULL;
-	}
 	return (line);
 }
 
-static int	read_line(int fd, char **buffer)
+char	*get_remaining(char *buffer)
 {
-	char	*tmp;
-	char	*buf;
-	int		bytes_read;
+	char	*leftover;
+	size_t	len;
+	size_t	new_line;
 
-	buf = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!buf)
-		return (-1);
-	bytes_read = read(fd, buf, BUFFER_SIZE);
-	while (bytes_read > 0)
+	len = strlen_at(buffer, '\0');
+	new_line = strlen_at(buffer, '\n');
+	if (buffer[new_line] == '\n')
+		new_line++;
+	leftover = cpy_buffer(buffer + new_line, len - new_line + 1);
+	if (!leftover)
+		return (NULL);
+	free(buffer);
+	return (leftover);
+}
+
+char	*get_current_buffer(int fd, char *buffer)
+{
+	char	*current;
+	ssize_t	bytes;
+
+	bytes = 1;
+	current = (char *)malloc(BUFFER_SIZE + 1);
+	if (!current)
+		return (NULL);
+	while (bytes > 0 && !find_chr(buffer, '\n'))
 	{
-		buf[bytes_read] = '\0';
-		if (!*buffer)
-			*buffer = ft_strdup(buf);
-		else
-		{	
-			tmp = ft_strjoin(*buffer, buf);
-			if (!tmp)
-				return (-1);
-			free(*buffer);
-			*buffer = tmp;
-		}
-		if (ft_strchr(buf, '\n'))
+		bytes = read(fd, current, BUFFER_SIZE);
+		if (bytes == 0)
 			break ;
-		bytes_read = read(fd, buf, BUFFER_SIZE);
+		if (bytes == -1)
+		{
+			free(current);
+			return (NULL);
+		}
+		current[bytes] = '\0';
+		buffer = merge_previous_and_current(buffer, current);
 	}
-	free(buf);
-	return (bytes_read);
+	free(current);
+	if (strlen_at(buffer, '\0') > 0)
+		return (buffer);
+	return (NULL);
 }
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer[1024];
+	static char	*buffer;
 	char		*line;
-	int			bytes_read;
 
-	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= 1024)
+	if (fd < 0 || BUFFER_SIZE <= 0)
 		return (NULL);
-	bytes_read = read_line(fd, &buffer[fd]);
-	if (bytes_read == -1)
+	buffer = get_current_buffer(fd, buffer);
+	if (!buffer)
 		return (NULL);
-	line = get_line(&buffer[fd], NULL);
+	line = get_line(buffer);
+	buffer = get_remaining(buffer);
+	if (!buffer[0])
+	{
+		free (buffer);
+		buffer = NULL;
+	}
 	return (line);
 }

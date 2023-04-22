@@ -6,7 +6,7 @@
 #    By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/04/14 01:34:02 by wcorrea-          #+#    #+#              #
-#    Updated: 2023/04/21 01:32:54 by wcorrea-         ###   ########.fr        #
+#    Updated: 2023/04/22 18:56:32 by wcorrea-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,10 @@ RM = rm -f
 CFLAGS = -Wall -Wextra -Werror
 INCLUDE = -I ${GNL}
 MAKE = make -C
+BUFFER_SIZE = -D BUFFER_SIZE=1000
 
-all:	
-		${CC} ${CFLAGS} ${INCLUDE} ${TEST} ${SRC} -o ${OUT}
+all:	fclean
+		${CC} ${CFLAGS} ${INCLUDE} ${BUFFER_SIZE} ${TEST} ${SRC} -o ${OUT}
 
 fclean:
 		${RM} main
