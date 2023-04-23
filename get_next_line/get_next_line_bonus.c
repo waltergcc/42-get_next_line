@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 00:26:26 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/04/22 23:14:44 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/04/23 12:21:31 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,8 +72,8 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || fd >= MAX_FILES)
 		return (NULL);
-	buffer[fd] = get_current_buffer(fd, buffer);
-	if (!buffer)
+	buffer[fd] = get_current_buffer(fd, buffer[fd]);
+	if (!buffer[fd])
 		return (NULL);
 	line = get_line(&buffer[fd]);
 	if (!buffer[fd][0])

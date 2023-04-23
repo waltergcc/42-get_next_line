@@ -1,0 +1,25 @@
+Exercise:
+Solve for x: 3x + 5 = 14
+
+Explanation:
+This exercise involves solving a basic linear equation. In algebra, an equation is a mathematical statement that equates two expressions. In this case, we have an equation with an unknown variable (x) that we need to solve for. To do this, we need to isolate the variable on one side of the equation by performing the same operation on both sides.
+
+Examples:
+Let's solve the equation using the steps below:
+3x + 5 = 14 (original equation)
+3x = 9 (subtracting 5 from both sides)
+x = 3 (dividing both sides by 3)
+
+So the solution is x = 3.
+
+Another example:
+2x - 4 = 6
+2x = 10
+x = 5
+
+Solution:
+3x + 5 = 14
+3x = 9
+x = 3
+
+In this case, x equals 3.
