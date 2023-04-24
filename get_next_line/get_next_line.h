@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 00:26:51 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/04/22 18:12:49 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/04/24 09:15:09 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@
 #  define BUFFER_SIZE 42
 # endif
 
+char	*get_line(char **buffer);
+char	*get_current_buffer(int fd, char *buffer);
 char	*get_next_line(int fd);
 
 void	*ft_memcpy(void *dest, const void *src, size_t n);

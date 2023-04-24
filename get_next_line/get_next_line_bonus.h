@@ -6,7 +6,7 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 00:26:51 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/04/22 23:11:28 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/04/24 09:15:41 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@
 
 # define MAX_FILES 10000
 
+char	*get_line(char **buffer);
+char	*get_current_buffer(int fd, char *buffer);
 char	*get_next_line(int fd);
 
 void	*ft_memcpy(void *dest, const void *src, size_t n);
