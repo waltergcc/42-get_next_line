@@ -24,8 +24,6 @@
 #  define BUFFER_SIZE 42
 # endif
 
-char	*get_line(char **buffer);
-char	*get_current_buffer(int fd, char *buffer);
 char	*get_next_line(int fd);
 
 void	*ft_memcpy(void *dest, const void *src, size_t n);

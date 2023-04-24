@@ -6,13 +6,13 @@
 /*   By: wcorrea- <wcorrea-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/21 00:26:26 by wcorrea-          #+#    #+#             */
-/*   Updated: 2023/04/24 09:19:54 by wcorrea-         ###   ########.fr       */
+/*   Updated: 2023/04/24 13:15:59 by wcorrea-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*get_line(char **buffer)
+static char	*get_line(char **buffer)
 {
 	char	*line;
 	char	*keep;
@@ -37,7 +37,7 @@ char	*get_line(char **buffer)
 	return (line);
 }
 
-char	*get_current_buffer(int fd, char *buffer)
+static char	*get_current_buffer(int fd, char *buffer)
 {
 	char	*current;
 	ssize_t	bytes;
